@@ -108,7 +108,9 @@ export function spectralPeak(
 ): { freq: number; bin: number } | null {
   let bin = -1;
   let max = 0;
-  for (let i = 2; i < mags.length; i++) {
+  // Skip DC / rumble bins below ~40 Hz so leakage can't win the peak search.
+  const startBin = Math.max(2, Math.ceil((40 * fftSize) / sampleRate));
+  for (let i = startBin; i < mags.length; i++) {
     if (mags[i]! > max) {
       max = mags[i]!;
       bin = i;
