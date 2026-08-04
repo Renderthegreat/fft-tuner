@@ -35,7 +35,7 @@ export function freqToNote(freq: number, a4 = 440): NoteInfo {
   const midi = Math.round(exact);
   const target = midiToFreq(midi, a4);
   return {
-    name: NOTE_NAMES[((midi % 12) + 12) % 12],
+    name: NOTE_NAMES[((midi % 12) + 12) % 12]!,
     octave: Math.floor(midi / 12) - 1,
     target,
     cents: 1200 * Math.log2(freq / target),
@@ -56,7 +56,7 @@ export function detectPitchACF(
 ): { freq: number; clarity: number; period: number } | null {
   const n = buf.length;
   let rms = 0;
-  for (let i = 0; i < n; i++) rms += buf[i] * buf[i];
+  for (let i = 0; i < n; i++) rms += buf[i]! * buf[i]!;
   rms = Math.sqrt(rms / n);
   if (rms < 0.006) return null;
 
@@ -67,7 +67,7 @@ export function detectPitchACF(
   let bestLag = -1;
   let bestCorr = 0;
   let energyZero = 0;
-  for (let i = 0; i < n / 2; i++) energyZero += buf[i] * buf[i];
+  for (let i = 0; i < n / 2; i++) energyZero += buf[i]! * buf[i]!;
 
   const corrs = new Float32Array(maxLag + 1);
   for (let lag = minLag; lag <= maxLag; lag++) {
@@ -75,8 +75,8 @@ export function detectPitchACF(
     let energyLag = 0;
     const half = Math.floor(n / 2);
     for (let i = 0; i < half; i++) {
-      sum += buf[i] * buf[i + lag];
-      energyLag += buf[i + lag] * buf[i + lag];
+      sum += buf[i]! * buf[i + lag]!;
+      energyLag += buf[i + lag]! * buf[i + lag]!;
     }
     const norm = Math.sqrt(energyZero * energyLag) || 1;
     const c = sum / norm;
@@ -109,8 +109,8 @@ export function spectralPeak(
   let bin = -1;
   let max = 0;
   for (let i = 2; i < mags.length; i++) {
-    if (mags[i] > max) {
-      max = mags[i];
+    if (mags[i]! > max) {
+      max = mags[i]!;
       bin = i;
     }
   }
