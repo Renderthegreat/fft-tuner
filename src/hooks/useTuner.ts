@@ -21,8 +21,8 @@ export function useTuner(a4: number) {
   const [reading, setReading] = useState<Reading | null>(null);
   const [sampleRate, setSampleRate] = useState(48000);
 
-  const timeRef = useRef<Float32Array>(new Float32Array(FFT_SIZE));
-  const freqRef = useRef<Uint8Array>(new Uint8Array(FFT_SIZE / 2));
+  const timeRef = useRef<Float32Array<ArrayBuffer>>(new Float32Array(FFT_SIZE));
+  const freqRef = useRef<Uint8Array<ArrayBuffer>>(new Uint8Array(FFT_SIZE / 2));
   const ctxRef = useRef<AudioContext | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const rafRef = useRef<number | null>(null);
