@@ -6,6 +6,9 @@ import { useTuner } from "@/hooks/useTuner";
 import { TuningDial } from "@/components/tuner/TuningDial";
 import { WaveformScope } from "@/components/tuner/WaveformScope";
 import { SpectrumScope } from "@/components/tuner/SpectrumScope";
+import { Panel } from "@/components/tuner/Panel";
+import { MetronomePanel } from "@/components/tuner/MetronomePanel";
+import { useMetronome } from "@/hooks/useMetronome";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -27,32 +30,6 @@ export const Route = createFileRoute("/")({
   component: TunerPage,
 });
 
-function Panel({
-  label,
-  hint,
-  children,
-  className = "",
-}: {
-  label: string;
-  hint?: string;
-  children: React.ReactNode;
-  className?: string;
-}) {
-  return (
-    <section className={`panel p-4 ${className}`}>
-      <header className="mb-3 flex items-baseline justify-between gap-3">
-        <h2 className="font-mono text-[0.68rem] tracking-[0.22em] text-foreground/80 uppercase">
-          {label}
-        </h2>
-        {hint ? (
-          <p className="font-mono text-[0.62rem] text-muted-foreground">{hint}</p>
-        ) : null}
-      </header>
-      {children}
-    </section>
-  );
-}
-
 function Stat({ label, value, unit }: { label: string; value: string; unit?: string }) {
   return (
     <div className="flex items-baseline justify-between border-b border-border/60 py-2 last:border-0">
@@ -70,6 +47,7 @@ function Stat({ label, value, unit }: { label: string; value: string; unit?: str
 function TunerPage() {
   const [a4, setA4] = useState(440);
   const tuner = useTuner(a4);
+  const metronome = useMetronome();
   const { reading, status } = tuner;
   const running = status === "running";
   const binHz = tuner.sampleRate / tuner.fftSize;
@@ -157,6 +135,8 @@ function TunerPage() {
         </div>
 
         <div className="flex flex-col gap-5">
+          <MetronomePanel m={metronome} />
+
           <Panel label="Under the hood">
             <div className="flex flex-col">
               <Stat
