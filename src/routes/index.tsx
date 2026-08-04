@@ -125,7 +125,7 @@ function TunerPage() {
         hint={reading ? `${reading.freq.toFixed(2)} Hz detected` : "no stable pitch"}
       >
         <TuningDial
-          cents={reading ? reading.cents ?? reading.note.cents : null}
+          cents={reading ? reading.note.cents : null}
           note={reading ? reading.note.name : null}
           octave={reading ? reading.note.octave : null}
         />

@@ -9,7 +9,7 @@ function cssVar(el: HTMLElement, name: string, fallback: string) {
 type Props = {
   dataRef: React.RefObject<Float32Array<ArrayBuffer>>;
   /** Detected period in samples — used to lock the trace and mark one cycle. */
-  period?: number;
+  period?: number | undefined;
   active: boolean;
 };
 

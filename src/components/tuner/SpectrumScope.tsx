@@ -10,7 +10,7 @@ type Props = {
   sampleRate: number;
   fftSize: number;
   /** Fundamental frequency, used to draw harmonic guides. */
-  fundamental?: number;
+  fundamental?: number | undefined;
   active: boolean;
 };
 
